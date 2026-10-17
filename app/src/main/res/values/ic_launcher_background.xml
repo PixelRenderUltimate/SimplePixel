@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#4340C4</color>
+    <!-- Latar gelap yang sama dengan bidang di balik logo SR. -->
+    <color name="ic_launcher_background">#161413</color>
 </resources>
