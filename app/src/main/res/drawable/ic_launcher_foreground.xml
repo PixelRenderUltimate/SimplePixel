@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Bingkai luar: panel layar -->
+    <path
+        android:pathData="M36,30 H72 A3,3 0 0 1 75,33 V75 A3,3 0 0 1 72,78 H36 A3,3 0 0 1 33,75 V33 A3,3 0 0 1 36,30 Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000" />
+    <!-- Bingkai dalam: resolusi yang diperkecil -->
+    <path
+        android:pathData="M43,41 H65 A2,2 0 0 1 67,43 V65 A2,2 0 0 1 65,67 H43 A2,2 0 0 1 41,65 V43 A2,2 0 0 1 43,41 Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.55" />
+</vector>
