@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.simplereso.app.ui
 
 import android.content.Intent
@@ -24,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.simplereso.app.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(vm: MainViewModel) {
     val s by vm.state.collectAsStateWithLifecycle()
@@ -225,25 +226,40 @@ private fun ScaleCard(s: UiState, enabled: Boolean, onPick: (Int) -> Unit) {
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Label("Skala cepat")
-            FlowRowCompat {
-                listOf(100, 90, 80, 75, 66, 50).forEach { p ->
-                    val f = s.factory
-                    val w = f?.let { (it.width * p / 100 / 2) * 2 }
-                    val h = f?.let { (it.height * p / 100 / 2) * 2 }
-                    val selected = w != null && s.inputWidth == w.toString() && s.inputHeight == h.toString()
-                    FilterChip(
-                        selected = selected,
-                        onClick = { onPick(p) },
-                        enabled = enabled && f != null,
-                        label = {
-                            Text(
-                                if (w != null) "${if (p == 100) "Standar" else "$p%"} $w×$h" else "$p%",
-                                fontFamily = FontFamily.Monospace,
-                                fontSize = 12.sp
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf(100, 90, 80, 75, 66, 50).chunked(3).forEach { row ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        row.forEach { p ->
+                            val f = s.factory
+                            val w = f?.let { (it.width * p / 100 / 2) * 2 }
+                            val h = f?.let { (it.height * p / 100 / 2) * 2 }
+                            val selected = w != null &&
+                                s.inputWidth == w.toString() && s.inputHeight == h.toString()
+                            FilterChip(
+                                selected = selected,
+                                onClick = { onPick(p) },
+                                enabled = enabled && f != null,
+                                modifier = Modifier.weight(1f),
+                                label = {
+                                    Text(
+                                        if (p == 100) "Standar" else "$p%",
+                                        fontFamily = FontFamily.Monospace,
+                                        fontSize = 12.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                }
                             )
                         }
-                    )
+                    }
                 }
+            }
+            s.factory?.let { f ->
+                Text(
+                    "Ketuk untuk mengisi kolom di bawah. 100% = ${f.width} × ${f.height}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
@@ -372,12 +388,6 @@ private fun NumberField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
     )
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun FlowRowCompat(content: @Composable FlowRowScope.() -> Unit) {
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), content = content)
 }
 
 private fun aspectLabel(w: Int, h: Int): String {
