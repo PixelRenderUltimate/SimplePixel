@@ -14,7 +14,7 @@ val keystoreProps = Properties().apply {
 fun secret(key: String, envName: String): String? =
     keystoreProps.getProperty(key) ?: System.getenv(envName)
 
-val appVersionName = "1.0.0"
+val appVersionName = "1.0.1"
 
 android {
     namespace = "com.simplereso.app"
